@@ -1,4 +1,6 @@
 from django.apps import AppConfig
+from .models import UserProfile
+
 
 
 class RelationshipAppConfig(AppConfig):
