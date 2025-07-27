@@ -13,7 +13,7 @@ class Author(models.Model):
 # Book model (linked to Author via ForeignKey)
 class Book(models.Model):
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='books')  # 🛠️ Fixed here
 
     class Meta:
         permissions = [

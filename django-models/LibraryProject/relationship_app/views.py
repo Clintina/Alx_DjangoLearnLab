@@ -69,7 +69,7 @@ def member_view(request):
     return render(request, 'relationship_app/member_view.html')
 
 # 🔒 Permission-protected book actions
-@permission_required('relationship_app.add_book')
+@permission_required('relationship_app.can_add_book')
 def add_book_view(request):
     return render(request, 'relationship_app/add_book.html')
 
