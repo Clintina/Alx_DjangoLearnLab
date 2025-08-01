@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book
-from .forms import BookSearchForm, BookForm
+from .forms import BookSearchForm, BookForm, Exampleform
 
 # Permission-protected view: list books
 @permission_required('bookshelf.can_view', raise_exception=True)
@@ -10,7 +10,7 @@ def book_list(request):
     return render(request, 'bookshelf/book_list.html', {'books': books})
 
 
-# Permission-protected view: create a book
+
 @permission_required('bookshelf.can_create', raise_exception=True)
 def create_book(request):
     if request.method == 'POST':
@@ -23,7 +23,7 @@ def create_book(request):
     return render(request, 'bookshelf/form_example.html', {'form': form})
 
 
-# Permission-protected view: edit a book
+
 @permission_required('bookshelf.can_edit', raise_exception=True)
 def edit_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
@@ -37,7 +37,6 @@ def edit_book(request, book_id):
     return render(request, 'bookshelf/form_example.html', {'form': form})
 
 
-# Permission-protected view: delete a book
 @permission_required('bookshelf.can_delete', raise_exception=True)
 def delete_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
@@ -47,7 +46,6 @@ def delete_book(request, book_id):
     return render(request, 'bookshelf/delete_book.html', {'book': book})
 
 
-# Safe search view using form + ORM
 @permission_required('bookshelf.can_view', raise_exception=True)
 def search_view(request):
     form = BookSearchForm(request.GET or None)
