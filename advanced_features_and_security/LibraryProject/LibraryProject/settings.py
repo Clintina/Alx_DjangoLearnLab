@@ -151,6 +151,9 @@ CSP_FONT_SRC = ("'self'", 'https://fonts.gstatic.com')
 # Redirect all HTTP traffic to HTTPS
 SECURE_SSL_REDIRECT = True
 
+# Trust the X-Forwarded-Proto header set by the proxy (e.g., Nginx or Heroku)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Enable HTTP Strict Transport Security (HSTS)
 SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply to all subdomains
@@ -166,5 +169,4 @@ X_FRAME_OPTIONS = "DENY"
 # Ensure cookies are only sent over HTTPS
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-
 CSRF_COOKIE_SECURE = True
