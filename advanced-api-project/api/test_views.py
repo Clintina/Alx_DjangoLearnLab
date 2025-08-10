@@ -21,6 +21,7 @@ class BookViewTests(APITestCase):
         url = reverse('book-detail', args=[self.book.id])
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+         self.assertIn('Test Book', str(response.data))
 
     def test_create_book_returns_201(self):
         url = reverse('book-create')
@@ -31,6 +32,7 @@ class BookViewTests(APITestCase):
         }
         response = self.client.post(url, data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['title'], 'New Book') 
 
     def test_update_book_returns_200(self):
         url = reverse('book-update')
