@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+<body class="register-page">
 <h2>Register</h2>
 
 {% if form.errors %}
@@ -21,4 +22,7 @@
 </form>
 
 <p>Already have an account? <a href="{% url 'login' %}">Log in here</a></p>
+
+<script src="{% static 'blog/scripts.js' %}"></script>
+</body>
 {% endblock %}
