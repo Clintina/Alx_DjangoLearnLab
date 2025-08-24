@@ -1,49 +1,19 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block content %}
-<div class="container mt-4">
-    <!-- Post Content -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h2 class="card-title">{{ object.title }}</h2>
-            <p class="card-text">{{ object.content }}</p>
-            <p class="text-muted">By {{ object.author.username }} on {{ object.created_at|date:"F j, Y, g:i a" }}</p>
-        </div>
-    </div>
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.content }}</p>
+  <p><strong>Author:</strong> {{ post.author.username }}</p>
+  <p><strong>Published:</strong> {{ post.published_date }}</p>
 
-    <!-- Comments Section -->
-    <div class="comments mb-4">
-        <h4>Comments ({{ comments.count }})</h4>
-        {% if comments %}
-            <ul class="list-group">
-                {% for comment in comments %}
-                    <li class="list-group-item">
-                        <strong>{{ comment.author.username }}</strong> said:
-                        <p>{{ comment.content }}</p>
-                        <small class="text-muted">{{ comment.created_at|date:"F j, Y, g:i a" }}</small>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No comments yet. Be the first to share your thoughts!</p>
-        {% endif %}
-    </div>
+  <p><strong>Tags:</strong>
+    {% for tag in post.tags.all %}
+      <a href="{% url 'posts-by-tag' tag.slug %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+    {% empty %}
+      No tags.
+    {% endfor %}
+  </p>
 
-    <!-- Add Comment Form -->
-    {% if user.is_authenticated %}
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5>Add a Comment</h5>
-                <form method="post" action="{% url 'add-comment' object.pk %}">
-                    {% csrf_token %}
-                    {{ comment_form.as_p }}
-                    <button type="submit" class="btn btn-primary">Post Comment</button>
-                </form>
-            </div>
-        </div>
-    {% else %}
-        <p><a href="{% url 'login' %}">Log in</a> to add a comment.</p>
-    {% endif %}
-</div>
+  <a href="{% url 'post-update' post.pk %}">Edit</a> |
+  <a href="{% url 'post-delete' post.pk %}">Delete</a>
 {% endblock %}

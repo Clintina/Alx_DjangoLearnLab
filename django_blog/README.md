@@ -15,3 +15,14 @@ This module allows authenticated users to create, edit, and delete blog posts. A
   - Add: `/post/<post_id>/comment/`
   - Edit: `/comment/<comment_id>/edit/`
   - Delete: `/comment/<comment_id>/delete/`
+
+## Tagging and Search Features
+
+### Tagging
+- Add tags to posts using the post creation/edit form.
+- Tags are comma-separated and auto-saved.
+- Click on any tag to view related posts.
+
+### Search
+- Use the search bar to find posts by title, content, or tags.
+- Results are displayed on a dedicated search results page.
