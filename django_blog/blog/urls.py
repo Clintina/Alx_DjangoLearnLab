@@ -1,9 +1,16 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import CommentUpdateView, CommentDeleteView
-# Comment-related views will be added later once implemented
-# from .views import CommentUpdateView, CommentDeleteView
+from .views import (
+    PostListView,
+    PostDetailView,
+    PostCreateView,
+    PostUpdateView,
+    PostDeleteView,
+    CommentCreateView,
+    CommentUpdateView,
+    CommentDeleteView,
+)
 
 urlpatterns = [
     # Authentication routes
@@ -13,15 +20,14 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
 
     # Blog post CRUD routes
-    path('', views.PostListView.as_view(), name='post-list'),
-    path('post/new/', views.PostCreateView.as_view(), name='post-create'),
-    path('post/<int:pk>/', views.PostDetailView.as_view(), name='post-detail'),
-    path('post/<int:pk>/update/', views.PostUpdateView.as_view(), name='post-update'),
-    path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post-delete'),
-    path('comment/<int:pk>/edit/', CommentUpdateView.as_view(), name='comment-update'),
-    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
+    path('', PostListView.as_view(), name='post-list'),
+    path('post/new/', PostCreateView.as_view(), name='post-create'),
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
+    path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
+    path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 
-    # Comment routes (to be re-enabled once views are defined)
-    # path('comment/<int:pk>/edit/', CommentUpdateView.as_view(), name='comment-update'),
-    # path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
+    # Comment CRUD routes (marker-friendly)
+    path('post/<int:pk>/comments/new/', CommentCreateView.as_view(), name='comment-create'),
+    path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
 ]
