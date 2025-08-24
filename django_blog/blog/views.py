@@ -1,11 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
-
-from .forms import CustomUserCreationForm, PostForm
-from .models import Post
+from .forms import CustomUserCreationForm, PostForm, CommentForm
+from .models import Post, Comment
 
 # --- User Registration ---
 def register(request):
@@ -37,6 +36,27 @@ class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = Comment.objects.filter(post=self.object)
+        context['comment_form'] = CommentForm()
+        return context
+
+# --- Comment Creation View ---
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+
+    def form_valid(self, form):
+        post_id = self.kwargs['pk']
+        form.instance.post = get_object_or_404(Post, pk=post_id)
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('post-detail', kwargs={'pk': self.kwargs['pk']})
+
+# --- Post Create/Update/Delete Views ---
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
