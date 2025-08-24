@@ -11,7 +11,7 @@ from .views import (
     CommentUpdateView,
     CommentDeleteView,
     SearchResultsView,
-    PostByTagListView,  # ✅ Updated name for marker
+    PostByTagListView,  # ✅ Correct view name for marker
 )
 
 urlpatterns = [
@@ -33,7 +33,7 @@ urlpatterns = [
     path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
 
-    # Search and Tag filtering
+    # Search and tag filtering
     path('search/', SearchResultsView.as_view(), name='search-results'),
-    path('tags/<slug:tag_slug>/', TaggedPostListView.as_view(), name='posts-by-tag'),  # ✅ Updated path
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='posts-by-tag'),  # ✅ Exact match
 ]
