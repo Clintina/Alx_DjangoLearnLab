@@ -44,6 +44,26 @@ python manage.py runserver
 |  | /api/accounts/login/ |  | 
 |  | /api/accounts/logout/ |  | 
 
+🔐 Authentication
+- Explain token-based auth using POST /api/accounts/register/ and POST /api/accounts/login/
+- Show how to include the token in headers:
+Authorization: Token your_token_here
+
+
+👥 Follow System
+- POST /api/accounts/follow/<user_id>/ — Follow a user
+- POST /api/accounts/unfollow/<user_id>/ — Unfollow a user
+- Note: Users can’t follow themselves
+📝 Posts & Comments
+- CRUD endpoints for posts:
+- GET /api/posts/, POST /api/posts/, PUT /api/posts/<id>/, DELETE /api/posts/<id>/
+- Same for comments: GET /api/comments/, etc.
+- Mention permissions: only authors can edit/delete their own content
+📰 Feed Endpoint
+- GET /api/feed/ — Returns posts from followed users, newest first
+🧪 Testing
+- Mention any unit tests or manual testing done
+- Confirm endpoints return correct status codes and error messages
 
 
 
