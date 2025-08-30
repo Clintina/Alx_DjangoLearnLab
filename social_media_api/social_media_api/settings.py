@@ -20,22 +20,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+cgy%6u@ez&a3)hnj=@=@w7+plv=jut-1&s6jkso(c!dkzq4i#'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-+cgy%6u@ez&a3)hnj=@=@w7+plv=jut-1&s6jkso(c!dkzq4i#')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
 
 
-ALLOWED_HOSTS = []
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -92,13 +85,17 @@ import dj_database_url
 import os
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL')),
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600,
-        ssl_require=False)
-
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'your_db_name'),
+        'USER': os.environ.get('DB_USER', 'your_db_user'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'your_db_password'),
+        'HOST': os.environ.get('DB_HOST', 'your_db_host'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
+    }
 }
+
+
 
 
 # Password validation
