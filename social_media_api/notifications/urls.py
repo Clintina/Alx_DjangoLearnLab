@@ -1,0 +1,1 @@
+path('', views.get_notifications, name='notifications'),

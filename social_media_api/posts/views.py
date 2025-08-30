@@ -40,3 +40,20 @@ class FeedView(generics.ListAPIView):
     def get_queryset(self):
         following_users = self.request.user.following.all()
         return Post.objects.filter(author__in=following_users).order_by('-created_at')
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def like_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    like, created = Like.objects.get_or_create(user=request.user, post=post)
+    if created:
+        create_notification(actor=request.user, recipient=post.author, verb='liked your post', target=post)
+        return Response({'message': 'Post liked'}, status=201)
+    return Response({'message': 'Already liked'}, status=200)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def unlike_post(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    Like.objects.filter(user=request.user, post=post).delete()
+    return Response({'message': 'Post unliked'}, status=200)
